@@ -1,7 +1,7 @@
 using States;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine
 {
     public PlayerState CurrentPlayerState { get; private set; }
 

@@ -9,8 +9,8 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] 
     private LoadLevels levelManager;
-    [SerializeField] 
-    private SaveManager saveManager;
+    [FormerlySerializedAs("saveManager")] [SerializeField] 
+    private SaveController saveController;
     [SerializeField]
     private Button startButton;
     [SerializeField]

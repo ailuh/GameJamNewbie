@@ -7,8 +7,7 @@ namespace States
     {
         private bool _grounded;
         private Vector2 _vecGravity;
-        private float _fallMultiplier = 3;
-        public float _timeRemaning;
+        private readonly float _fallMultiplier = 3;
         public JumpPlayerState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine)
         {
         }
@@ -24,23 +23,18 @@ namespace States
         
             if (playerController.Rb.velocity.y < 0)
                 playerController.Rb.velocity -= _vecGravity * _fallMultiplier * Time.deltaTime;
+            //_grounded = playerController.IsSurfaceOverlapped();
+            if (playerController.Rb.velocity.y > 0)
+                playerController.Rb.velocity += _vecGravity * 15 * Time.deltaTime;
+            
         }
         
         public override void OnPhysicsUpdate()
         {
-            if (_timeRemaning > 0)
+            if (_grounded)
             {
-                _timeRemaning -= Time.deltaTime;
+                stateMachine.ChangeState(playerController.Idle);
             }
-            else
-            {
-                _grounded = playerController.IsSurfaceOverlapped();
-                if (_grounded)
-                {
-                    stateMachine.ChangeState(playerController.Idle);
-                }
-            }
-           
         }
         
         public override void OnExit()
@@ -50,8 +44,8 @@ namespace States
 
         private void Jump()
         {
-            _timeRemaning = 0.5f;
-            var jumpValue = playerController.JumpValue;
+            _grounded = false;
+            var jumpValue = Mathf.Clamp(playerController.JumpValue, 0, 1);
             playerController.Rb.velocity = new Vector2(playerController.Rb.velocity.x, jumpValue * 15);
             
         }

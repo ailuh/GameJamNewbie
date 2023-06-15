@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     
     public bool IsSurfaceOverlapped()
     {
-        bool isOverlapped = Physics2D.OverlapBox(groundCheck.position, new Vector2(1.1f, 0.001f), 0,groundLayer);
+        bool isOverlapped = Physics2D.OverlapCapsule(groundCheck.position, new Vector2(1.1f, 0.3f), CapsuleDirection2D.Horizontal,0,groundLayer);
         isGroundedText.text = isOverlapped.ToString();
         return isOverlapped;
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SaveManager : MonoBehaviour
+public class SaveController : MonoBehaviour
 {
     private const string Levels = "Openedlevels";
     private int openedLevels;
