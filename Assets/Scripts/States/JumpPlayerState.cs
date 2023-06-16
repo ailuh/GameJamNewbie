@@ -7,6 +7,8 @@ namespace States
     {
         private bool _grounded;
         private Vector2 _vecGravity;
+        private float _jumpTimer;
+        private float _preventJumpBugTimer;
         private readonly float _fallMultiplier = 3;
         public JumpPlayerState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine)
         {
@@ -20,21 +22,21 @@ namespace States
 
         public override void UpdateState()
         {
-        
-            if (playerController.Rb.velocity.y < 0)
-                playerController.Rb.velocity -= _vecGravity * _fallMultiplier * Time.deltaTime;
-            //_grounded = playerController.IsSurfaceOverlapped();
-            if (playerController.Rb.velocity.y > 0)
-                playerController.Rb.velocity += _vecGravity * 15 * Time.deltaTime;
-            
+            if (_jumpTimer > 0) _jumpTimer -= Time.deltaTime;
+            if (_preventJumpBugTimer > 0) _preventJumpBugTimer -= Time.deltaTime;
+            _grounded = playerController.IsSurfaceOverlapped();
+            if ((_grounded && _jumpTimer <= 0) || (_preventJumpBugTimer <= 0))
+            {
+                stateMachine.ChangeState(playerController.Idle);
+            }
         }
         
         public override void OnPhysicsUpdate()
         {
-            if (_grounded)
-            {
-                stateMachine.ChangeState(playerController.Idle);
-            }
+            if (playerController.Rb.velocity.y > 0)
+               playerController.Rb.velocity -= _vecGravity * _fallMultiplier * Time.deltaTime;
+            if (playerController.Rb.velocity.y < 0)
+                playerController.Rb.velocity -= _vecGravity * _fallMultiplier * Time.deltaTime;
         }
         
         public override void OnExit()
@@ -44,10 +46,11 @@ namespace States
 
         private void Jump()
         {
+            _jumpTimer = 0.3f;
+            _preventJumpBugTimer = 2f;
             _grounded = false;
             var jumpValue = Mathf.Clamp(playerController.JumpValue, 0, 1);
-            playerController.Rb.velocity = new Vector2(playerController.Rb.velocity.x, jumpValue * 15);
-            
+            playerController.Rb.velocity = new Vector2(playerController.Rb.velocity.x, jumpValue * 20);
         }
     }
 }

@@ -13,7 +13,6 @@
             
             public override void OnEnter()
             {
-                Debug.Log("Walk initialized");
             }
 
             public override void UpdateState()

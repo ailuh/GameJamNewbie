@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using States;
 using States.States;
 using TMPro;
@@ -8,9 +7,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private TMP_Text stateText;
-    [SerializeField] private TMP_Text isGroundedText;
-    [SerializeField] private Transform groundCheck;
+    [SerializeField] 
+    private float checkRaduis;
+    [SerializeField] 
+    private TMP_Text stateText;
+    [SerializeField] 
+    private TMP_Text isGroundedText;
+    [SerializeField] 
+    private Transform groundCheck;
     private bool _isWalkInput;
     private bool _isJumpInput;
     private Vector2 _moveDirection;
@@ -24,10 +28,11 @@ public class PlayerController : MonoBehaviour
     public PlayerState Walking;
     public PlayerState Jumping;
     public PlayerState Idle;
+    public PlayerState Disabled;
     public bool isWalkInput => _isWalkInput;
     public bool isJumpInput=> _isJumpInput;
 
-    private void Start()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _stateMachine = new StateMachine();
@@ -35,9 +40,20 @@ public class PlayerController : MonoBehaviour
         Walking = new WalkPlayerState(this, _stateMachine);
         Jumping = new JumpPlayerState(this, _stateMachine);
         Idle = new IdlePlayerState(this, _stateMachine);
-        _stateMachine.Initialize(Idle);
+        Disabled = new DisableInputState(this, _stateMachine);
+        _stateMachine.Initialize(Idle);    
     }
-
+    
+    public void DisableInput()
+    {
+        _stateMachine.ChangeState(Disabled);
+    }
+    
+    public void EnableInput()
+    {
+        _stateMachine.ChangeState(Idle);
+    }
+   
     private void Update()
     {
         _stateMachine.CurrentPlayerState.UpdateState();
@@ -66,7 +82,7 @@ public class PlayerController : MonoBehaviour
     
     public bool IsSurfaceOverlapped()
     {
-        bool isOverlapped = Physics2D.OverlapCapsule(groundCheck.position, new Vector2(1.1f, 0.3f), CapsuleDirection2D.Horizontal,0,groundLayer);
+        bool isOverlapped = Physics2D.OverlapCircle(groundCheck.position, checkRaduis,groundLayer);
         isGroundedText.text = isOverlapped.ToString();
         return isOverlapped;
     }

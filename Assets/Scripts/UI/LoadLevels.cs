@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -11,5 +9,10 @@ public class LoadLevels : MonoBehaviour
     {
         var lastLevel = saveController.LoadLastLevel();
         SceneManager.LoadScene( $"Level{lastLevel}");
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
