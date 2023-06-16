@@ -31,7 +31,8 @@
     
             private void Move(Vector2 direction)
             {
-                playerController.Rb.velocity =_moveSpeed * new Vector3(direction.x, playerController.Rb.velocity.y);
+                //playerController.Rb.velocity.y
+                playerController.Rb.velocity =_moveSpeed * new Vector3(direction.x, 0);
 
             }
         }

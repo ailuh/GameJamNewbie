@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
@@ -14,5 +15,11 @@ public class LoadLevels : MonoBehaviour
     public void ReturnToMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void SelectLevel()
+    {
+        var level = EventSystem.current.currentSelectedGameObject.name;
+        SceneManager.LoadScene(level);
     }
 }

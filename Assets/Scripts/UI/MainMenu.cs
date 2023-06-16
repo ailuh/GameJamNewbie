@@ -9,22 +9,58 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] 
     private LoadLevels levelManager;
-    [FormerlySerializedAs("saveManager")] [SerializeField] 
+    [SerializeField] 
     private SaveController saveController;
     [SerializeField]
     private Button startButton;
     [SerializeField]
     private Button levelsButton;
     [SerializeField]
+    private Button returnButton;
+    [SerializeField]
     private Button aboutButton;
-
+    [SerializeField] 
+    private GameObject mainPanel;
+    [SerializeField] 
+    private GameObject levelPanel;
+    
     private void Start()
     {
         startButton.onClick.AddListener(StartGame);
+        levelsButton.onClick.AddListener(OpenLevelMenu);
+        returnButton.onClick.AddListener(ReturnToMain);
     }
 
     private void StartGame()
     {   
         levelManager.StartLastOpenedLevel();
+    }
+
+    private void OpenLevelMenu()
+    {
+        mainPanel.SetActive(false);
+        levelPanel.SetActive(true);
+        var openedLevelsCount = saveController.ReturnOpenedLevelsCount;
+        Debug.Log(openedLevelsCount);
+        for (int i = 0; i < levelPanel.transform.childCount; i++)
+        {
+            if (i <= openedLevelsCount-1)
+            {
+                levelPanel.transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else
+            {
+                Debug.Log(levelPanel.transform.GetChild(i).gameObject.name);
+                levelPanel.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            if (i == levelPanel.transform.childCount-1) 
+                levelPanel.transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
+    public void ReturnToMain()
+    {
+        mainPanel.SetActive(true);
+        levelPanel.SetActive(false);
     }
 }

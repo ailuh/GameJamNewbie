@@ -42,5 +42,7 @@ public class SaveController : MonoBehaviour
     {
         PlayerPrefs.SetInt(Levels, 1);
     }
+    
+    public int ReturnOpenedLevelsCount =>  PlayerPrefs.GetInt(Levels);
    
 }

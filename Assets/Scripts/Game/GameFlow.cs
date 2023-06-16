@@ -101,8 +101,8 @@ public class GameFlow : MonoBehaviour
         var currentTime = 0;
         while (currentTime < _timerTime)
         {
-            currentTime += 1;
             timerText.text = $"00:{10 - currentTime}";
+            currentTime += 1;
             yield return new WaitForSeconds(1);
         }
         timerText.text = "00:00";
