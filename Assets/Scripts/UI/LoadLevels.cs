@@ -1,25 +1,29 @@
+using SaveData;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
-public class LoadLevels : MonoBehaviour
+namespace UI
 {
-    [FormerlySerializedAs("saveManager")] [SerializeField] private SaveController saveController;
-    public void StartLastOpenedLevel()
+    public class LoadLevels : MonoBehaviour
     {
-        var lastLevel = saveController.LoadLastLevel();
-        SceneManager.LoadScene( $"Level{lastLevel}");
-    }
+        [FormerlySerializedAs("saveManager")] [SerializeField] private SaveController saveController;
+        public void StartLastOpenedLevel()
+        {
+            var lastLevel = saveController.LoadLastLevel();
+            SceneManager.LoadScene( $"Level{lastLevel}");
+        }   
 
-    public void ReturnToMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
+        public void ReturnToMenu()
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
 
-    public void SelectLevel()
-    {
-        var level = EventSystem.current.currentSelectedGameObject.name;
-        SceneManager.LoadScene(level);
+        public void SelectLevel()
+        {
+            var level = EventSystem.current.currentSelectedGameObject.name;
+            SceneManager.LoadScene(level);
+        }
     }
 }

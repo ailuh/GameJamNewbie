@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DefeatPlayer : MonoBehaviour
+namespace Game
 {
-    [SerializeField] 
-    private GameFlow gameController;
-    
-    private void OnTriggerEnter2D(Collider2D col)
+    public class DefeatPlayer : MonoBehaviour
     {
-        if (col.tag.Equals("Player"))
+        [SerializeField] 
+        private GameFlow gameController;
+    
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            gameController.Loose();
+            if (col.tag.Equals("Player"))
+            {
+                gameController.Loose();
+            }
         }
     }
 }

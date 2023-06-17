@@ -1,4 +1,6 @@
-﻿namespace States
+﻿    using Game;
+
+namespace States
 {
     using UnityEngine;
 
@@ -11,28 +13,19 @@
             {
             }
             
-            public override void OnEnter()
-            {
-            }
-
             public override void UpdateState()
             {
                 Move(playerController.MoveDirection);
-                if(playerController.isJumpInput)
+                if(playerController.IsJumpInput)
                     stateMachine.ChangeState(playerController.Jumping);
                 if (playerController.MoveDirection.Equals(Vector2.zero) || !playerController.IsSurfaceOverlapped())
                     stateMachine.ChangeState(playerController.Idle);
                 
             }
-
-            public override void OnExit()
-            {
-            }
-    
+            
             private void Move(Vector2 direction)
             {
-                //playerController.Rb.velocity.y
-                playerController.Rb.velocity =_moveSpeed * new Vector3(direction.x, 0);
+                    playerController.Rb.velocity =_moveSpeed * new Vector3(direction.x, 0);
 
             }
         }

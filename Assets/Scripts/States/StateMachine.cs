@@ -1,20 +1,20 @@
-using States;
-using UnityEngine;
-
-public class StateMachine
+namespace States
 {
-    public PlayerState CurrentPlayerState { get; private set; }
-
-    public void Initialize(PlayerState startingPlayerState)
+    public class StateMachine
     {
-        CurrentPlayerState = startingPlayerState;
-        startingPlayerState.OnEnter();
-    }
+        public PlayerState CurrentPlayerState { get; private set; }
 
-    public void ChangeState(PlayerState newPlayerState)
-    {
-        CurrentPlayerState.OnExit();
-        CurrentPlayerState = newPlayerState;
-        newPlayerState.OnEnter();
+        public void Initialize(PlayerState startingPlayerState)
+        {
+            CurrentPlayerState = startingPlayerState;
+            startingPlayerState.OnEnter();
+        }
+
+        public void ChangeState(PlayerState newPlayerState)
+        {
+            CurrentPlayerState.OnExit();
+            CurrentPlayerState = newPlayerState;
+            newPlayerState.OnEnter();
+        }
     }
 }

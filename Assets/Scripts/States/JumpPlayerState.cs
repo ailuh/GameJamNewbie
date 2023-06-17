@@ -1,4 +1,4 @@
-﻿using States.States;
+﻿using Game;
 using UnityEngine;
 
 namespace States
@@ -34,9 +34,9 @@ namespace States
         public override void OnPhysicsUpdate()
         {
             if (playerController.Rb.velocity.y > 0)
-               playerController.Rb.velocity -= _vecGravity * _fallMultiplier * Time.deltaTime;
+               playerController.Rb.velocity -= _vecGravity * (_fallMultiplier * Time.deltaTime);
             if (playerController.Rb.velocity.y < 0)
-                playerController.Rb.velocity -= _vecGravity * _fallMultiplier * Time.deltaTime;
+                playerController.Rb.velocity -= _vecGravity * (_fallMultiplier * Time.deltaTime);
         }
         
         public override void OnExit()

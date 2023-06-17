@@ -1,4 +1,6 @@
-﻿namespace States
+﻿using Game;
+
+namespace States
 {
     public abstract class PlayerState
     {

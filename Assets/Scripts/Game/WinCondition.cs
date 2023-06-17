@@ -1,8 +1,9 @@
-using System;
 using UnityEngine;
 
-public class WinCondition : MonoBehaviour
+namespace Game
 {
+    public class WinCondition : MonoBehaviour
+    {
         [SerializeField] 
         private GameFlow gameController;
         [SerializeField] 
@@ -23,4 +24,5 @@ public class WinCondition : MonoBehaviour
                 gameController.Win();
             }
         }
+    }
 }
