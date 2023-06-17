@@ -23,12 +23,15 @@ public class MainMenu : MonoBehaviour
     private GameObject mainPanel;
     [SerializeField] 
     private GameObject levelPanel;
+    [SerializeField] 
+    private GameObject aboutPanel;
     
     private void Start()
     {
         startButton.onClick.AddListener(StartGame);
         levelsButton.onClick.AddListener(OpenLevelMenu);
         returnButton.onClick.AddListener(ReturnToMain);
+        aboutButton.onClick.AddListener(OpenAboutMenu);
     }
 
     private void StartGame()
@@ -36,10 +39,19 @@ public class MainMenu : MonoBehaviour
         levelManager.StartLastOpenedLevel();
     }
 
+    private void OpenAboutMenu()
+    {
+        mainPanel.SetActive(false);
+        levelPanel.SetActive(false);
+        aboutPanel.SetActive(true);
+
+    }
+    
     private void OpenLevelMenu()
     {
         mainPanel.SetActive(false);
         levelPanel.SetActive(true);
+        aboutPanel.SetActive(false);
         var openedLevelsCount = saveController.ReturnOpenedLevelsCount;
         Debug.Log(openedLevelsCount);
         for (int i = 0; i < levelPanel.transform.childCount; i++)
@@ -60,6 +72,7 @@ public class MainMenu : MonoBehaviour
 
     public void ReturnToMain()
     {
+        aboutPanel.SetActive(false);
         mainPanel.SetActive(true);
         levelPanel.SetActive(false);
     }

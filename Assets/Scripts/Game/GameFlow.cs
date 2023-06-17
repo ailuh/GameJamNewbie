@@ -11,7 +11,7 @@ public class GameFlow : MonoBehaviour
     private SaveController saveController;
     [SerializeField] 
     private LoadLevels sceneController;
-    [FormerlySerializedAs("_startPlayerPos")] [SerializeField]
+    [SerializeField]
     private Transform startPlayerPos;
     [SerializeField] 
     private Button restartButtonStatic;
@@ -49,7 +49,8 @@ public class GameFlow : MonoBehaviour
         returnToMenuWin.onClick.AddListener(ReturnToMenu);
         returnToMenuLose.onClick.AddListener(ReturnToMenu);
     }
-
+    
+    
     public void StartGame()
     {
         playerController.EnableInput();
@@ -81,6 +82,7 @@ public class GameFlow : MonoBehaviour
     
     public void Loose()
     {
+        playerController.Die();
         EndGame();
         looseWindow.SetActive(true);
     }

@@ -46,6 +46,7 @@ namespace States
 
         private void Jump()
         {
+            playerController.PlaySoundJump();
             _jumpTimer = 0.3f;
             _preventJumpBugTimer = 2f;
             _grounded = false;

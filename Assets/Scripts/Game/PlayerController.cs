@@ -10,13 +10,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] 
     private float checkRaduis;
     [SerializeField] 
-    private TMP_Text stateText;
-    [SerializeField] 
-    private TMP_Text isGroundedText;
-    [SerializeField] 
     private Transform groundCheck;
     private bool _isWalkInput;
     private bool _isJumpInput;
+    private AudioSource _audioSource;
+    public AudioClip jumpSound;
     private Vector2 _moveDirection;
     private float _jumpValue;
     private Rigidbody2D _rb;
@@ -29,14 +27,16 @@ public class PlayerController : MonoBehaviour
     public PlayerState Jumping;
     public PlayerState Idle;
     public PlayerState Disabled;
+    private Animator _animator;
     public bool isWalkInput => _isWalkInput;
-    public bool isJumpInput=> _isJumpInput;
+    public bool isJumpInput => _isJumpInput;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
         _stateMachine = new StateMachine();
-
+        _audioSource = GetComponent<AudioSource>();
         Walking = new WalkPlayerState(this, _stateMachine);
         Jumping = new JumpPlayerState(this, _stateMachine);
         Idle = new IdlePlayerState(this, _stateMachine);
@@ -51,18 +51,28 @@ public class PlayerController : MonoBehaviour
     
     public void EnableInput()
     {
+        _animator.SetBool("isDied", false);
         _stateMachine.ChangeState(Idle);
     }
-   
+
+    public void Die()
+    {
+        _animator.SetBool("isDied", true);
+    }
+    
     private void Update()
     {
         _stateMachine.CurrentPlayerState.UpdateState();
         if (_isJumpInput) _isJumpInput = false;
         if (_isWalkInput) _isWalkInput = false;
-        stateText.text = _stateMachine.CurrentPlayerState.ToString();
         IsSurfaceOverlapped();
     }
 
+    public void PlaySoundJump()
+    {
+        _audioSource.PlayOneShot(jumpSound);
+    }
+    
     private void FixedUpdate()
     {
         _stateMachine.CurrentPlayerState.OnPhysicsUpdate();
@@ -83,7 +93,6 @@ public class PlayerController : MonoBehaviour
     public bool IsSurfaceOverlapped()
     {
         bool isOverlapped = Physics2D.OverlapCircle(groundCheck.position, checkRaduis,groundLayer);
-        isGroundedText.text = isOverlapped.ToString();
         return isOverlapped;
     }
     

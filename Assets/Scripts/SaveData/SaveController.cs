@@ -11,7 +11,7 @@ public class SaveController : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(Levels))
         {
-            openedLevels = PlayerPrefs.GetInt("masterVolume");
+            openedLevels = PlayerPrefs.GetInt("Levels");
         }
         else
         {
@@ -28,7 +28,8 @@ public class SaveController : MonoBehaviour
     
     public void SaveDate(int levelOpened)
     {
-        PlayerPrefs.SetInt(Levels, levelOpened);
+        if (levelOpened <= 10) 
+            PlayerPrefs.SetInt(Levels, levelOpened);
     }
 
     public void OpenNextLevel()
