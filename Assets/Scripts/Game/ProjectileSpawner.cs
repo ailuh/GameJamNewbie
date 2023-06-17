@@ -12,13 +12,15 @@ public class ProjectileSpawner : MonoBehaviour
     private GameFlow gameFlow;
     [SerializeField] 
     private Vector3 direction;
-    private float _timer = 0;
+    [SerializeField] 
+    private float projectileLiveTime;
+    private float _timer;
 
     private void Update()
     {
         if (_timer <= 0)
         {
-            _timer = 4;
+            _timer = projectileLiveTime;
             var proj = Instantiate(projectile, transform);
             proj.GetComponent<Projectile>().SetGameController(gameFlow, direction);
             Destroy(proj, _timer);
