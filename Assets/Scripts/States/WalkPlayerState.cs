@@ -16,17 +16,16 @@ namespace States
             public override void UpdateState()
             {
                 Move(playerController.MoveDirection);
-                if(playerController.IsJumpInput)
+                if(playerController.IsJumpInput || !playerController.IsSurfaceOverlapped())
                     stateMachine.ChangeState(playerController.Jumping);
-                if (playerController.MoveDirection.Equals(Vector2.zero) || !playerController.IsSurfaceOverlapped())
+                if (playerController.MoveDirection.Equals(Vector2.zero))
                     stateMachine.ChangeState(playerController.Idle);
                 
             }
             
             private void Move(Vector2 direction)
             {
-                    playerController.Rb.velocity =_moveSpeed * new Vector3(direction.x, 0);
-
+                playerController.Rb.velocity =_moveSpeed * new Vector3(direction.x, 0);
             }
         }
     }

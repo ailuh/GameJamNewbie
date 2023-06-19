@@ -1,5 +1,7 @@
+using System.Linq;
 using States;
 using States.States;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,11 +9,7 @@ namespace Game
 {
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] 
-        private float checkRaduis;
-        [SerializeField] 
-        private Transform groundCheck;
-
+        [SerializeField] private Transform groundCheck;
         private AudioSource _audioSource;
         public AudioClip jumpSound;
         private Vector2 _moveDirection;
@@ -27,9 +25,9 @@ namespace Game
         public PlayerState Idle;
         public PlayerState Disabled;
         private Animator _animator;
+        private PlayerInput _playerInput;
         private static readonly int IsDied = Animator.StringToHash("isDied");
         public bool IsWalkInput { get; private set; }
-
         public bool IsJumpInput { get; private set; }
 
         private void Awake()
@@ -42,16 +40,19 @@ namespace Game
             Jumping = new JumpPlayerState(this, _stateMachine);
             Idle = new IdlePlayerState(this, _stateMachine);
             Disabled = new DisableInputState(this, _stateMachine);
-            _stateMachine.Initialize(Idle);    
+            _stateMachine.Initialize(Idle);
+            _playerInput = GetComponent<PlayerInput>();
         }
-    
+
         public void DisableInput()
         {
+            _playerInput.SwitchCurrentActionMap("UI");
             _stateMachine.ChangeState(Disabled);
         }
-    
+
         public void EnableInput()
         {
+            _playerInput.SwitchCurrentActionMap("Player");
             _animator.SetBool(IsDied, false);
             _stateMachine.ChangeState(Idle);
         }
@@ -60,12 +61,12 @@ namespace Game
         {
             _animator.SetBool(IsDied, true);
         }
-    
+
         private void Update()
         {
             _stateMachine.CurrentPlayerState.UpdateState();
-            if (IsJumpInput) IsJumpInput = false;
-            if (IsWalkInput) IsWalkInput = false;
+            IsWalkInput = !_moveDirection.Equals(Vector2.zero);
+            IsJumpInput = _jumpValue != 0;
             IsSurfaceOverlapped();
         }
 
@@ -73,7 +74,7 @@ namespace Game
         {
             _audioSource.PlayOneShot(jumpSound);
         }
-    
+
         private void FixedUpdate()
         {
             _stateMachine.CurrentPlayerState.OnPhysicsUpdate();
@@ -82,21 +83,18 @@ namespace Game
         public void OnMove(InputAction.CallbackContext context)
         {
             _moveDirection = context.ReadValue<Vector2>();
-            IsWalkInput = true;
         }
 
         public void OnJump(InputAction.CallbackContext context)
         {
             _jumpValue = context.ReadValue<float>();
-            IsJumpInput = true;
         }
-    
-        public bool IsSurfaceOverlapped()
+        
+    public bool IsSurfaceOverlapped()
         {
-            bool isOverlapped = Physics2D.OverlapCircle(groundCheck.position, checkRaduis,groundLayer);
+            bool isOverlapped = Physics2D.OverlapCapsule(groundCheck.position, new Vector2(1.0f, 0.3f), CapsuleDirection2D.Horizontal,0, groundLayer);
             return isOverlapped;
         }
-    
-    
+        
     }
 }

@@ -3,6 +3,7 @@ using SaveData;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Game
@@ -37,6 +38,7 @@ namespace Game
         private Vector3 _positionBackup;
         private Vector3 _anglesBackup;
         private bool _isEnded;
+        private bool _isWin;
 
         private void Start()
         {
@@ -73,6 +75,25 @@ namespace Game
             StartGame();
         }
 
+        public void OnRestartFromR(InputAction.CallbackContext context)
+        {
+            RestartGame();
+        }
+
+        public void ToMainFromEsc(InputAction.CallbackContext context)
+        {
+            ReturnToMenu();
+        }
+        
+        public void OnRestartFromSpace(InputAction.CallbackContext context)
+        {
+            if (!_isWin)
+                RestartGame();
+            else
+                NextLevel();
+        }
+        
+        
         private void EndGame()
         {
             _isEnded = true;
@@ -84,6 +105,7 @@ namespace Game
         {
             if (!_isEnded)
             {
+                _isWin = true;
                 saveController.OpenNextLevel();
                 EndGame();
                 winWindow.SetActive(true);
@@ -94,12 +116,13 @@ namespace Game
         {
             if (!_isEnded)
             {
+                _isWin = false;
                 playerController.Die();
                 EndGame();
                 looseWindow.SetActive(true);
             }
         }
-
+    
         private void ReturnToMenu()
         {
             StopAllCoroutines();
