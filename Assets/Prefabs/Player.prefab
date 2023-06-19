@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4384237571650456013}
   - component: {fileID: 6843075127912462300}
   - component: {fileID: 4461510462536012453}
+  - component: {fileID: 6060287027153059769}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1dfece642acd3134485ecf0d60f24c67, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b6be32b291ba0734087885a1284b9e34, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -148,45 +149,53 @@ MonoBehaviour:
     m_ActionId: 2b5d06ef-5252-4e68-84d7-bd36379ecead
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 97a76431-9a74-4ce9-adb9-9628419f54f7
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Game.GameFlow, Assembly-CSharp
+        m_MethodName: OnRestartFromR
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 56cb44e6-e08c-4884-8cad-3509bde90f62
+    m_ActionName: Player/Reset[/Keyboard/r]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c3f8bf78-8ee8-40af-a964-adeec848c8ea
-    m_ActionName: UI/Submit[/Keyboard/enter]
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Game.GameFlow, Assembly-CSharp
+        m_MethodName: ToMainFromEsc
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 05f6d0c8-1c98-4800-ab40-249e1c5cd2d6
+    m_ActionName: Player/ToMainMenu[/Keyboard/escape]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b7188856-0d89-4f8a-b448-3714f98f5efa
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 26dc363c-cb3a-45cf-b1b8-dbebe748931f
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e2a72e2b-e474-417b-8683-484ef7721929
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 73410a73-1c5a-4505-83f9-982d3cebfe6b
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f908670c-682f-45b8-8ac0-0ba413903d37
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 63473b9a-8026-4c0f-b441-d2ccde469350
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f614077a-f3bc-4a19-8f3d-28e3a48fbf23
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: bb6b6beb-2207-4be1-acae-91cc040a30a3
-    m_ActionName: UI/TrackedDeviceOrientation
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Game.GameFlow, Assembly-CSharp
+        m_MethodName: OnRestartFromSpace
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: db1b9a08-0fbf-43c5-9cb3-05480c53e830
+    m_ActionName: UI/Reset[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -204,9 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537ab6a88d5b4f44d833112cd9d5f7de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkRaduis: 0.3
-  stateText: {fileID: 0}
-  isGroundedText: {fileID: 0}
   groundCheck: {fileID: 703706081160487323}
   jumpSound: {fileID: 8300000, guid: 6e84b4b7572d35149aed01b08613b39c, type: 3}
   groundLayer:
@@ -370,6 +376,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &6060287027153059769
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212428742204267570}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2ab155fff72de73409c0f674572a6682, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7035939024143725683
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7035939024143725683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.817, z: 0}
+  m_LocalPosition: {x: 0, y: -0.702, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

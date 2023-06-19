@@ -11,14 +11,22 @@ namespace States
         private float _preventJumpBugTimer;
         private readonly float _fallMultiplier = 3;
         private readonly float _moveSpeed = 5f;
+        private readonly Animator _animator;
+        private static readonly int IsRight = Animator.StringToHash("isRight");
+        private static readonly int IsLeft = Animator.StringToHash("isLeft");
+
         public JumpPlayerState(PlayerController playerController, StateMachine stateMachine) : base(playerController, stateMachine)
         {
+            _animator = playerController.GetComponent<Animator>();
+
         }
         public override void OnEnter()
         {
             _vecGravity = new Vector2(0, -Physics2D.gravity.y);
             _grounded = false;
             Jump();
+            _animator.SetBool(IsRight, false);
+            _animator.SetBool(IsLeft, false);
         }
 
         public override void UpdateState()
